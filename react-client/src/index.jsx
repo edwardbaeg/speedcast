@@ -1,14 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import List from './components/List.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      items: []
-    }
+    this.state = {
+      items: [],
+    };
   }
 
   componentDidMount() {
@@ -16,8 +15,8 @@ class App extends React.Component {
       url: '/items', 
       success: (data) => {
         this.setState({
-          items: data
-        })
+          items: data,
+        });
       },
       error: (err) => {
         console.log('err', err);
@@ -26,10 +25,17 @@ class App extends React.Component {
   }
 
   render () {
-    return (<div>
-      <h1>Item List</h1>
-      <List items={this.state.items}/>
-    </div>)
+    return (
+      <div>
+        <h1>
+          Speedcast
+        </h1>
+        <audio className="player" controls>
+          <source src="Freakonomics - htbh.mp3" type="audio/mpeg"/>
+          Your browser does not support playing this file.
+        </audio>
+      </div>
+    )
   }
 }
 
