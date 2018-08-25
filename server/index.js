@@ -4,7 +4,6 @@ var items = require('../database-mongo');
 
 var app = express();
 
-// UNCOMMENT FOR REACT
 app.use(express.static(__dirname + '/../react-client/dist'));
 
 app.get('/items', function (req, res) {
