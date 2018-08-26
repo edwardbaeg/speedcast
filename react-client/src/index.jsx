@@ -8,6 +8,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       items: [],
+      currentItem: 0,
       speed: 1,
     };
     this.incrementSpeed = this.incrementSpeed.bind(this);
@@ -33,7 +34,7 @@ class App extends React.Component {
   renderPlayer() {
     return (
       <audio className="player" controls>
-        <source src="Freakonomics - htbh.mp3" type="audio/mpeg"/>
+        <source src={this.state.items[this.state.currentItem]} type="audio/mpeg"/>
         Your browser does not support playing this file.
       </audio>
     );

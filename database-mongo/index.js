@@ -11,15 +11,16 @@ db.once('open', function() {
   console.log('mongoose connected successfully');
 });
 
-var itemSchema = mongoose.Schema({
-  quantity: Number,
-  description: String
+var podcastSchema = mongoose.Schema({
+  url: String,
+  title: String,
+  channel: String,
 });
 
-var Item = mongoose.model('Item', itemSchema);
+var Podcast = mongoose.model('Item', podcastSchema);
 
 var selectAll = function(callback) {
-  Item.find({}, function(err, items) {
+  Podcast.find({}, function(err, items) {
     if(err) {
       callback(err, null);
     } else {
@@ -28,4 +29,7 @@ var selectAll = function(callback) {
   });
 };
 
-module.exports.selectAll = selectAll;
+module.exports = {
+  selectAll,
+  Podcast,
+};
