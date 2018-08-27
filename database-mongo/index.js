@@ -12,9 +12,11 @@ db.once('open', () => {
 });
 
 const podcastSchema = mongoose.Schema({
+  id: Number,
   url: String,
   title: String,
   channel: String,
+  speed: Number,
 });
 
 const Podcast = mongoose.model('Item', podcastSchema);
@@ -29,7 +31,13 @@ const selectAll = (callback) => {
   });
 };
 
+const update = (data, callback) => {
+  const { currentItem, speed } = data;
+  Podcast.update( { id: currentItem }, { speed: speed }, (response) => console.log(response));
+}
+
 module.exports = {
   selectAll,
+  update,
   Podcast,
 };

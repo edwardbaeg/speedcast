@@ -23,12 +23,14 @@ class App extends React.Component {
       success: (data) => {
         this.setState({
           items: data,
+          speed: data[this.state.currentItem].speed,
         });
       },
       error: (err) => {
         console.log('err', err);
       }
     });
+
     window.addEventListener('beforeunload', (e) => {
       const { speed, currentItem } = this.state;
       e.preventDefault();
