@@ -91,10 +91,13 @@ class App extends React.Component {
     return (
       <div>
         <div>
-          j speed down
+          &lt;j&gt; speed down
         </div>
         <div>
-          k speed up
+          &lt;k&gt; speed up
+        </div>
+        <div>
+          &lt;space&gt; speed up
         </div>
       </div>
     );
