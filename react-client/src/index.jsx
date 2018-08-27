@@ -19,9 +19,8 @@ class App extends React.Component {
 
   componentDidMount() {
     $.ajax({
-      url: '/items', 
+      url: '/podcasts',
       success: (data) => {
-        console.log(data);
         this.setState({
           items: data,
         });
@@ -31,10 +30,11 @@ class App extends React.Component {
       }
     });
     window.addEventListener('beforeunload', (e) => {
+      const { speed, currentItem } = this.state;
       e.preventDefault();
       axios.post('/settings', {
-        podcastId: this.state.currentItem,
-        data: 'data',
+        speed,
+        currentItem,
       })
         .then((response) => console.log(response))
         .catch((error) => console.log('POST error', error));
@@ -51,18 +51,18 @@ class App extends React.Component {
   }
 
   incrementSpeed() {
-    this.setState(prevState => ({ speed: prevState.speed + 0.1 }));
+    this.setState(prevState => ({ speed: +(prevState.speed + 0.1).toFixed(1) }));
   }
 
   decrementSpeed() {
-    this.setState(prevState => ({ speed: prevState.speed - 0.1 }));
+    this.setState(prevState => ({ speed: +(prevState.speed - 0.1).toFixed(1) }));
   }
 
   updateState({ played, loaded }) {
     this.setState({
       played,
       loaded,
-    })
+    });
   }
 
   renderSpeedControls() {
@@ -76,16 +76,17 @@ class App extends React.Component {
   }
 
   render () {
+    const { speed, items, currentItem } = this.state;
     return (
       <div>
         <h1>
           Speedcast
         </h1>
         <ReactPlayer
-          url="https://content.production.cdn.art19.com/episodes/e379802b-e812-4148-bafc-ef338379d0f7/1eff18a0c2eb8828ce9865b63fa6edfda6381b4c0cff924745e7c0c622e7046cd7c5ea23fc980e54f93cd0680ef67bdcae761acd4cb7c39dc2285ffd38d4db70/PC%20HAPPINESS%20MIX%20GR%20180815%20R1.mp3"
           controls
+          url={items[currentItem] !== undefined ? items[currentItem].url : '' }
           width='100%'
-          playbackRate={this.state.speed}
+          playbackRate={speed}
           onProgress={this.updateState}
         />
         {this.renderSpeedControls()}
