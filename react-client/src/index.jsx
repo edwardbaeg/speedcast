@@ -1,3 +1,4 @@
+import visualize from '../../lib/visualizer.js'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactPlayer from 'react-player';
@@ -44,6 +45,9 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    console.log(visualize);
+    visualize(document.getElementById('canvas'), document.getElementById('audio'));
+    document.getElementById('audio').play();
     const { currentItem } = this.state;
     axios.get('/podcasts')
       .then(({ data }) => {
@@ -171,6 +175,14 @@ class App extends React.Component {
 
   render() {
     const { speed, items, currentItem, playing } = this.state;
+    const canvasStyle = {
+      padding: 0,
+      margin: 0,
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+    };
     return (
       <div>
         <h1>
@@ -179,7 +191,7 @@ class App extends React.Component {
         {this.renderMessage()}
         <ReactPlayer
           ref={(player) => this.player = player}
-          controls
+          controls={false}
           playing={playing}
           url={items[currentItem] !== undefined ? items[currentItem].url : '' }
           width='100%'
@@ -190,6 +202,8 @@ class App extends React.Component {
           onReady={this.resumeTime}
         />
         <progress value={this.state.played} max='1'/>
+        <audio id="audio" src="Freakonomics - htbh.mp3"></audio>
+        <canvas style={canvasStyle} id="canvas" width="920px" height="50px"></canvas>
       </div>
     )
   }
