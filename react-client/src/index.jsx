@@ -118,7 +118,7 @@ class App extends React.Component {
   }
 
   convertSecondsToMin(s) {
-    return(s-(s%=60))/60+(9<s?':':':0')+s;
+    return(s-(s%=60))/60+(9<s?':':':0')+s.toFixed(0);
   }
 
   renderMessage() {
@@ -126,17 +126,18 @@ class App extends React.Component {
     const title = items[currentItem] !== undefined ? items[currentItem].title : 'loading...';
     const channel = items[currentItem] !== undefined ? items[currentItem].channel : 'loading...';
     const playingStatus = playing ? 'playing' : 'paused';
-    const currentTime = playedSeconds ? this.convertSecondsToMin(playedSeconds.toFixed(0)) + 's' : 'loading...';
+    const currentTime = playedSeconds ? this.convertSecondsToMin(playedSeconds) : 'loading...';
+    const duration = this.player ? this.convertSecondsToMin(this.player.getDuration()) : 'loading...';
     return (
       <div>
         <div>
-          {`Hi! You are listening to ${title} by ${channel}`}
+          {`Hi! You are listening to ${title} by ${channel},`}
         </div>
         <div>
-          {`at ${speed} times speed`}
+          {`at ${speed} times speed,`}
         </div>
         <div>
-          {`currently ${playingStatus} at ${currentTime}`}
+          {`currently ${playingStatus} at ${currentTime} / ${duration}`}
         </div>
       </div>
     )
@@ -188,9 +189,7 @@ class App extends React.Component {
           onProgress={this.updateState}
           onReady={this.resumeTime}
         />
-        {this.renderSpeedControls()}
         <progress value={this.state.played} max='1'/>
-        {this.renderShortcuts()}
       </div>
     )
   }
