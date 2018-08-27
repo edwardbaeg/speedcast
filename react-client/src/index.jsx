@@ -117,13 +117,26 @@ class App extends React.Component {
     });
   }
 
+  convertSecondsToMin(s) {
+    return(s-(s%=60))/60+(9<s?':':':0')+s;
+  }
+
   renderMessage() {
-    const { items, currentItem } = this.state;
+    const { items, currentItem, speed, playing, playedSeconds} = this.state;
     const title = items[currentItem] !== undefined ? items[currentItem].title : 'loading...';
+    const channel = items[currentItem] !== undefined ? items[currentItem].channel : 'loading...';
+    const playingStatus = playing ? 'playing' : 'paused';
+    const currentTime = playedSeconds ? this.convertSecondsToMin(playedSeconds.toFixed(0)) + 's' : 'loading...';
     return (
       <div>
         <div>
-          {`Hi! You are listening to ${title}`}
+          {`Hi! You are listening to ${title} by ${channel}`}
+        </div>
+        <div>
+          {`at ${speed} times speed`}
+        </div>
+        <div>
+          {`currently ${playingStatus} at ${currentTime}`}
         </div>
       </div>
     )
