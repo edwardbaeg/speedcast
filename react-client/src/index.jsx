@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactPlayer from 'react-player';
 import $ from 'jquery';
+import axios from 'axios';
 
 class App extends React.Component {
   constructor(props) {
@@ -28,6 +29,15 @@ class App extends React.Component {
       error: (err) => {
         console.log('err', err);
       }
+    });
+    window.addEventListener('beforeunload', (e) => {
+      e.preventDefault();
+      axios.post('/settings', {
+        podcastId: this.state.currentItem,
+        data: 'data',
+      })
+        .then((response) => console.log(response))
+        .catch((error) => console.log('POST error', error));
     });
   }
 

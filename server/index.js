@@ -5,6 +5,7 @@ var items = require('../database-mongo');
 var app = express();
 
 app.use(express.static(__dirname + '/../react-client/dist'));
+app.use(bodyParser.json());
 
 app.get('/items', function (req, res) {
   items.selectAll(function(err, data) {
@@ -14,6 +15,11 @@ app.get('/items', function (req, res) {
       res.json(data);
     }
   });
+});
+
+app.post('/settings', (req, res) => {
+  console.log(req.body);
+  res.status(200).send('done');
 });
 
 app.listen(3000, function() {
