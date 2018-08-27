@@ -45,9 +45,9 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    console.log(visualize);
-    visualize(document.getElementById('canvas'), document.getElementById('audio'));
-    document.getElementById('audio').play();
+    // visualize(document.getElementById('canvas'), document.getElementById('audio'));
+    // document.getElementById('audio').play();
+    // console.log(document.querySelector('audio'));
     const { currentItem } = this.state;
     axios.get('/podcasts')
       .then(({ data }) => {
@@ -110,6 +110,9 @@ class App extends React.Component {
       const { startTime } = this.state;
       this.setState({ isResumed: true });
       this.player.seekTo(startTime);
+
+      // console.log('initializing visualizer');
+      // visualize(document.querySelector('canvas'), document.querySelector('audio'));
     }
   }
 
@@ -135,13 +138,14 @@ class App extends React.Component {
     return (
       <div>
         <div>
-          {`Hi! You are listening to ${title} by ${channel},`}
+          <span className="highlight">{title}</span> by <span className="highlight">{channel}</span>!
+        </div>
+        <progress value={this.state.played} max='1'/>
+        <div>
+          at <span className="highlight">{speed}</span> times speed,
         </div>
         <div>
-          {`at ${speed} times speed,`}
-        </div>
-        <div>
-          {`currently ${playingStatus} at ${currentTime} / ${duration}`}
+          currently <span className="highlight">{playingStatus}</span> at <span className="highlight">{currentTime}</span> / <span className="highlight">{duration}</span>
         </div>
       </div>
     )
@@ -185,9 +189,6 @@ class App extends React.Component {
     };
     return (
       <div>
-        <h1>
-          Speedcast!
-        </h1>
         {this.renderMessage()}
         <ReactPlayer
           ref={(player) => this.player = player}
@@ -201,9 +202,10 @@ class App extends React.Component {
           onProgress={this.updateState}
           onReady={this.resumeTime}
         />
-        <progress value={this.state.played} max='1'/>
-        <audio id="audio" src="Freakonomics - htbh.mp3"></audio>
         <canvas style={canvasStyle} id="canvas" width="920px" height="50px"></canvas>
+        <div id='footer'>
+          Press ? for help
+        </div>
       </div>
     )
   }
