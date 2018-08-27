@@ -20,8 +20,17 @@ class App extends React.Component {
       j() {
         context.decrementSpeed();
       },
+
       k() {
         context.incrementSpeed();
+      },
+
+      h() {
+        context.skipBackward();
+      },
+
+      l() {
+        context.skipForward();
       }
     };
 
@@ -75,6 +84,16 @@ class App extends React.Component {
     this.setState(prevState => ({ speed: +(prevState.speed - 0.1).toFixed(1) }));
   }
 
+  skipForward() {
+    const { playedSeconds } = this.state;
+    this.player.seekTo(playedSeconds + 5);
+  }
+
+  skipBackward() {
+    const { playedSeconds } = this.state;
+    this.player.seekTo(playedSeconds - 5);
+  }
+
   togglePlay() {
     this.setState(prevState => ({ playing: !prevState.playing }));
   }
@@ -121,12 +140,14 @@ class App extends React.Component {
           Speedcast!
         </h1>
         <ReactPlayer
+          ref={(player) => this.player = player}
           controls
           playing={playing}
           url={items[currentItem] !== undefined ? items[currentItem].url : '' }
           width='100%'
           height='50px'
           playbackRate={speed}
+          progressInterval={100}
           onProgress={this.updateState}
         />
         {this.renderSpeedControls()}
