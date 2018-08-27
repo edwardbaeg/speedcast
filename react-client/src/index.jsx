@@ -15,9 +15,14 @@ class App extends React.Component {
       playing: false,
     };
 
+    const context = this;
     this.shortcuts = {
-      j: true,
-      k: true,
+      j() {
+        context.decrementSpeed();
+      },
+      k() {
+        context.incrementSpeed();
+      }
     };
 
     this.incrementSpeed = this.incrementSpeed.bind(this);
@@ -55,7 +60,7 @@ class App extends React.Component {
 
   handleKeyDown(event) {
     if (event.key in this.shortcuts) {
-      console.log('key pressed!');
+      this.shortcuts[event.key]();
     }
   }
 
@@ -73,6 +78,19 @@ class App extends React.Component {
       loaded,
       playedSeconds,
     });
+  }
+
+  renderShortcuts() {
+    return (
+      <div>
+        <div>
+          j speed down
+        </div>
+        <div>
+          k speed up
+        </div>
+      </div>
+    );
   }
 
   renderSpeedControls() {
@@ -103,6 +121,7 @@ class App extends React.Component {
         />
         {this.renderSpeedControls()}
         <progress value={this.state.played} max='1'/>
+        {this.renderShortcuts()}
       </div>
     )
   }
