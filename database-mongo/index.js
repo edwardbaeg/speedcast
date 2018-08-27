@@ -1,27 +1,27 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/podcasts');
 
-var db = mongoose.connection;
+const db = mongoose.connection;
 
-db.on('error', function() {
+db.on('error', () => {
   console.log('mongoose connection error');
 });
 
-db.once('open', function() {
+db.once('open', () => {
   console.log('mongoose connected successfully');
 });
 
-var podcastSchema = mongoose.Schema({
+const podcastSchema = mongoose.Schema({
   url: String,
   title: String,
   channel: String,
 });
 
-var Podcast = mongoose.model('Item', podcastSchema);
+const Podcast = mongoose.model('Item', podcastSchema);
 
-var selectAll = function(callback) {
-  Podcast.find({}, function(err, items) {
-    if(err) {
+const selectAll = (callback) => {
+  Podcast.find({}, (err, items) => {
+    if (err) {
       callback(err, null);
     } else {
       callback(null, items);
