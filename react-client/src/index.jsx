@@ -117,6 +117,18 @@ class App extends React.Component {
     });
   }
 
+  renderMessage() {
+    const { items, currentItem } = this.state;
+    const title = items[currentItem] !== undefined ? items[currentItem].title : 'loading...';
+    return (
+      <div>
+        <div>
+          {`Hi! You are listening to ${title}`}
+        </div>
+      </div>
+    )
+  }
+
   renderShortcuts() {
     return (
       <div>
@@ -150,6 +162,7 @@ class App extends React.Component {
         <h1>
           Speedcast!
         </h1>
+        {this.renderMessage()}
         <ReactPlayer
           ref={(player) => this.player = player}
           controls
