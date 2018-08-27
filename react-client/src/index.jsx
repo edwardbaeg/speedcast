@@ -28,6 +28,7 @@ class App extends React.Component {
     this.incrementSpeed = this.incrementSpeed.bind(this);
     this.decrementSpeed = this.decrementSpeed.bind(this);
     this.updateState = this.updateState.bind(this);
+    this.togglePlay = this.togglePlay.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
@@ -61,6 +62,8 @@ class App extends React.Component {
   handleKeyDown(event) {
     if (event.key in this.shortcuts) {
       this.shortcuts[event.key]();
+    } else if (event.key === ' ') {
+      this.togglePlay();
     }
   }
 
@@ -70,6 +73,10 @@ class App extends React.Component {
 
   decrementSpeed() {
     this.setState(prevState => ({ speed: +(prevState.speed - 0.1).toFixed(1) }));
+  }
+
+  togglePlay() {
+    this.setState(prevState => ({ playing: !prevState.playing }));
   }
 
   updateState({ played, loaded, playedSeconds }) {
