@@ -17,12 +17,14 @@ const pods = [
     title: 'How To Be Happy',
     channel: 'Freakonomics',
     speed: 1,
+    playedSeconds: 0,
   }, {
     id: 1,
     url: 'asdf',
     title: 'test',
     channel: 'test channel',
     speed: 1,
+    playedSeconds: 0,
   },
 ];
 

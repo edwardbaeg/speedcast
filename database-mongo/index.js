@@ -17,6 +17,7 @@ const podcastSchema = mongoose.Schema({
   title: String,
   channel: String,
   speed: Number,
+  playedSeconds: Number,
 });
 
 const Podcast = mongoose.model('Item', podcastSchema);
@@ -32,8 +33,11 @@ const selectAll = (callback) => {
 };
 
 const update = (data, callback) => {
-  const { currentItem, speed } = data;
-  Podcast.update({ id: currentItem }, { speed: speed }, (response) => console.log(response));
+  const { currentItem, speed, playedSeconds } = data;
+  console.log(currentItem, speed, playedSeconds);
+  Podcast.update({ id: currentItem }, { speed: speed, playedSeconds: playedSeconds }, (res) => {
+    console.log(res);
+  });
 };
 
 module.exports = {

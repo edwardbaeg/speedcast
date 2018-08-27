@@ -12,41 +12,51 @@ class App extends React.Component {
       speed: 1,
       played: 0,
       loaded: 0,
+      playing: false,
     };
+
+    this.shortcuts = {
+      j: true,
+      k: true,
+    };
+
     this.incrementSpeed = this.incrementSpeed.bind(this);
     this.decrementSpeed = this.decrementSpeed.bind(this);
     this.updateState = this.updateState.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
   componentDidMount() {
+    const { currentItem } = this.state;
     axios.get('/podcasts')
       .then(({ data }) => {
         this.setState({
           items: data,
-          speed: data[this.state.currentItem].speed,
+          speed: data[currentItem].speed,
+          startTime: data[currentItem].playedSeconds,
         });
       })
       .catch(error => console.log(error));
 
     window.addEventListener('beforeunload', (e) => {
-      const { speed, currentItem } = this.state;
+      const { speed, currentItem, playedSeconds } = this.state;
       e.preventDefault();
       axios.post('/settings', {
-        speed,
         currentItem,
+        speed,
+        playedSeconds,
       })
         .then((response) => console.log(response))
         .catch((error) => console.log('POST error', error));
     });
+
+    document.addEventListener('keydown', this.handleKeyDown);
   }
 
-  renderPlayer() {
-    return (
-      <audio className="player" controls>
-        <source src={this.state.items[this.state.currentItem]} type="audio/mpeg"/>
-        Your browser does not support playing this file.
-      </audio>
-    );
+  handleKeyDown(event) {
+    if (event.key in this.shortcuts) {
+      console.log('key pressed!');
+    }
   }
 
   incrementSpeed() {
@@ -57,10 +67,11 @@ class App extends React.Component {
     this.setState(prevState => ({ speed: +(prevState.speed - 0.1).toFixed(1) }));
   }
 
-  updateState({ played, loaded }) {
+  updateState({ played, loaded, playedSeconds }) {
     this.setState({
       played,
       loaded,
+      playedSeconds,
     });
   }
 
@@ -75,16 +86,18 @@ class App extends React.Component {
   }
 
   render () {
-    const { speed, items, currentItem } = this.state;
+    const { speed, items, currentItem, playing } = this.state;
     return (
       <div>
         <h1>
-          Speedcast
+          Speedcast!
         </h1>
         <ReactPlayer
           controls
+          playing={playing}
           url={items[currentItem] !== undefined ? items[currentItem].url : '' }
           width='100%'
+          height='50px'
           playbackRate={speed}
           onProgress={this.updateState}
         />
