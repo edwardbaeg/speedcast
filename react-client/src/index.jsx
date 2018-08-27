@@ -13,6 +13,7 @@ class App extends React.Component {
       played: 0,
       loaded: 0,
       playing: false,
+      isResumed: false,
     };
 
     const context = this;
@@ -39,6 +40,7 @@ class App extends React.Component {
     this.updateState = this.updateState.bind(this);
     this.togglePlay = this.togglePlay.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.resumeTime = this.resumeTime.bind(this);
   }
 
   componentDidMount() {
@@ -66,6 +68,7 @@ class App extends React.Component {
     });
 
     document.addEventListener('keydown', this.handleKeyDown);
+
   }
 
   handleKeyDown(event) {
@@ -96,6 +99,14 @@ class App extends React.Component {
 
   togglePlay() {
     this.setState(prevState => ({ playing: !prevState.playing }));
+  }
+
+  resumeTime() {
+    if (!this.state.isResumed) {
+      const { startTime } = this.state;
+      this.setState({ isResumed: true });
+      this.player.seekTo(startTime);
+    }
   }
 
   updateState({ played, loaded, playedSeconds }) {
@@ -132,7 +143,7 @@ class App extends React.Component {
     );
   }
 
-  render () {
+  render() {
     const { speed, items, currentItem, playing } = this.state;
     return (
       <div>
@@ -149,6 +160,7 @@ class App extends React.Component {
           playbackRate={speed}
           progressInterval={100}
           onProgress={this.updateState}
+          onReady={this.resumeTime}
         />
         {this.renderSpeedControls()}
         <progress value={this.state.played} max='1'/>
