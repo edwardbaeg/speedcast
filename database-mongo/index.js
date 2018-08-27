@@ -33,8 +33,8 @@ const selectAll = (callback) => {
 
 const update = (data, callback) => {
   const { currentItem, speed } = data;
-  Podcast.update( { id: currentItem }, { speed: speed }, (response) => console.log(response));
-}
+  Podcast.update({ id: currentItem }, { speed: speed }, (response) => console.log(response));
+};
 
 module.exports = {
   selectAll,

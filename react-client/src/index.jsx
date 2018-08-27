@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactPlayer from 'react-player';
-import $ from 'jquery';
 import axios from 'axios';
 
 class App extends React.Component {
@@ -11,6 +10,8 @@ class App extends React.Component {
       items: [],
       currentItem: 0,
       speed: 1,
+      played: 0,
+      loaded: 0,
     };
     this.incrementSpeed = this.incrementSpeed.bind(this);
     this.decrementSpeed = this.decrementSpeed.bind(this);
@@ -18,18 +19,14 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    $.ajax({
-      url: '/podcasts',
-      success: (data) => {
+    axios.get('/podcasts')
+      .then(({ data }) => {
         this.setState({
           items: data,
           speed: data[this.state.currentItem].speed,
         });
-      },
-      error: (err) => {
-        console.log('err', err);
-      }
-    });
+      })
+      .catch(error => console.log(error));
 
     window.addEventListener('beforeunload', (e) => {
       const { speed, currentItem } = this.state;
