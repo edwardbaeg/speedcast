@@ -23,17 +23,20 @@ class App extends React.Component {
       j() {
         context.decrementSpeed();
       },
-
       k() {
         context.incrementSpeed();
       },
-
       h() {
         context.skipBackward();
       },
-
       l() {
         context.skipForward();
+      },
+      H() {
+        context.prevPodcast();
+      },
+      L() {
+        context.nextPodcast();
       }
     };
 
@@ -44,6 +47,8 @@ class App extends React.Component {
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.resumeTime = this.resumeTime.bind(this);
     this.toggleShortcuts = this.toggleShortcuts.bind(this);
+    this.nextPodcast = this.nextPodcast.bind(this);
+    this.prevPodcast = this.prevPodcast.bind(this);
   }
 
   componentDidMount() {
@@ -103,6 +108,28 @@ class App extends React.Component {
   skipBackward() {
     const { playedSeconds } = this.state;
     this.player.seekTo(playedSeconds - 5);
+  }
+
+  nextPodcast() {
+    const { items } = this.state;
+    this.setState(prevState => {
+      let nextIndex = prevState.currentItem + 1;
+      if (nextIndex === items.length) {
+        nextIndex = 0;
+      }
+      return { currentItem: nextIndex };
+    });
+  }
+
+  prevPodcast() {
+    const { items } = this.state;
+    this.setState(prevState => {
+      let nextIndex = prevState.currentItem - 1;
+      if (nextIndex === -1) {
+        nextIndex = items.length - 1;
+      }
+      return { currentItem: nextIndex };
+    });
   }
 
   togglePlay() {
