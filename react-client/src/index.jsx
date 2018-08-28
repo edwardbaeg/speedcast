@@ -15,6 +15,7 @@ class App extends React.Component {
       loaded: 0,
       playing: false,
       isResumed: false,
+      showShortcuts: false,
     };
 
     const context = this;
@@ -42,6 +43,7 @@ class App extends React.Component {
     this.togglePlay = this.togglePlay.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.resumeTime = this.resumeTime.bind(this);
+    this.toggleShortcuts = this.toggleShortcuts.bind(this);
   }
 
   componentDidMount() {
@@ -80,6 +82,8 @@ class App extends React.Component {
       this.shortcuts[event.key]();
     } else if (event.key === ' ') {
       this.togglePlay();
+    } else if (event.key === '?') {
+      this.toggleShortcuts();
     }
   }
 
@@ -103,6 +107,10 @@ class App extends React.Component {
 
   togglePlay() {
     this.setState(prevState => ({ playing: !prevState.playing }));
+  }
+
+  toggleShortcuts() {
+    this.setState(prevState => ({ showShortcuts: !prevState.showShortcuts }));
   }
 
   resumeTime() {
@@ -153,15 +161,36 @@ class App extends React.Component {
 
   renderShortcuts() {
     return (
-      <div>
-        <div>
-          &lt;j&gt; speed down
+      <div className="shortcuts">
+        <div className="left-col">
+          &lt;j&gt;
         </div>
         <div>
-          &lt;k&gt; speed up
+          speed down
+        </div>
+        <div className="left-col">
+          &lt;k&gt;
         </div>
         <div>
-          &lt;space&gt; speed up
+          speed up
+        </div>
+        <div className="left-col">
+          &lt;space&gt;
+        </div>
+        <div>
+          play/pause
+        </div>
+        <div className="left-col">
+          &lt;h&gt;
+        </div>
+        <div>
+          seek forwards 5s
+        </div>
+        <div className="left-col">
+          &lt;l&gt;
+        </div>
+        <div>
+          seek forwards 5s
         </div>
       </div>
     );
@@ -178,7 +207,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { speed, items, currentItem, playing } = this.state;
+    const { speed, items, currentItem, playing, showShortcuts } = this.state;
     const canvasStyle = {
       padding: 0,
       margin: 0,
@@ -203,6 +232,7 @@ class App extends React.Component {
           onReady={this.resumeTime}
         />
         <canvas style={canvasStyle} id="canvas" width="920px" height="50px"></canvas>
+        {showShortcuts && this.renderShortcuts()}
         <div id='footer'>
           Press ? for help
         </div>

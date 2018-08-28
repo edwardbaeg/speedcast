@@ -16,6 +16,22 @@ progress {
   width: 100%;
 }
 
+.shortcuts {
+  bottom: 100px;
+  display: grid;
+  left: 20px;
+  font-size: 24px;
+  grid-template-columns: 1fr 1fr;
+  position: absolute;
+  text-align: left;
+  width: 300px;
+}
+
+.left-col {
+  text-align: center;
+  width: 100px;
+}
+
 #footer {
   bottom: 20px;
   font-size: 20px;
