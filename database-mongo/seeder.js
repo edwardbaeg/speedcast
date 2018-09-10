@@ -20,9 +20,9 @@ const pods = [
     playedSeconds: 0,
   }, {
     id: 1,
-    url: 'asdf',
-    title: 'test',
-    channel: 'test channel',
+    url: 'https://content.production.cdn.art19.com/episodes/be049f33-87a9-402a-aea5-09746ee938a0/cd8da8b9745d68b9e08618ea2d97ed6b043a3f8101c63f9886d1aced3892166f35e9f44690a3a601925ba894929b7c8860b6302d421305d10a6b81f0e27cfda5/PC%20WIZARD%20%2B%20PROPHET%20MIX%20GR%20180822.mp3',
+    title: 'Two (Totally Opposite) Ways to Save the Planet',
+    channel: 'Freakonomics',
     speed: 1,
     playedSeconds: 0,
   },
