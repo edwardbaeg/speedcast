@@ -254,7 +254,7 @@ class App extends React.Component {
           width='100%'
           height='50px'
           playbackRate={speed}
-          progressInterval={100}
+          progressInterval={50}
           onProgress={this.updateState}
           onReady={this.resumeTime}
         />
