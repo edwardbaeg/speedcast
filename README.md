@@ -22,13 +22,16 @@ mongodb
 
 ```
 npm install
+npm start
 
 ```
 
-## Development
-`npm run react-dev` to start webpack
+The app will be running on `localhost:3000`
 
-`npm run react-dev` to start webpack
+## Development
+`npm run react-dev` to build with webpack
+
+`npm run react-dev` to start nodemon server
 
 ### Built with
 * React
