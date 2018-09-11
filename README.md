@@ -15,6 +15,7 @@ Follow these instructions to get a copy of the object up and running on your loc
 ### Prerequisites
 
 ```
+node
 mongodb
 ```
 
@@ -23,15 +24,14 @@ mongodb
 ```
 npm install
 npm start
-
 ```
 
-The app will be running on `localhost:3000`
+The app will run on `localhost:3000`
 
 ## Development
 `npm run react-dev` to build with webpack
 
-`npm run react-dev` to start nodemon server
+`npm run server-dev` to start nodemon server
 
 ### Built with
 * React
